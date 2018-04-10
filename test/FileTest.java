@@ -126,8 +126,6 @@ public class FileTest {
             if (!file.exists())
                 file.createNewFile();
             file.setLastModified(time);
-            System.out.println("0 " + filename + "  " + readable + "  " + writable + "  " + executable);
-            System.out.println("1 " + filename + "  " + file.canRead() + "  " + file.canWrite() + "  " + file.canExecute());
             return new Object[]{fs.getFile(file, isLong), file};
         } catch (IOException e) {
             e.printStackTrace();
