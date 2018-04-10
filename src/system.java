@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class system {
-    public String getFile(File file,boolean isLong){
+    public String getFile(File file, boolean isLong) {
         boolean executable = file.canExecute();
         boolean writable = file.canWrite();
         boolean readable = file.canRead();
@@ -17,14 +17,17 @@ public class system {
         SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String lastOutTime = format1.format(lastTime);
         if (isLong)
-            return String.format("%s%s%s %s %s %s",readable ? "r" : "-",
-                    writable ? "w" : "-",executable? "x":"-");
+            return String.format("%s%s%s %s %s %s", readable ? "r" : "-",
+                    writable ? "w" : "-", executable ? "x" : "-",
+                    getPrintSize(size), lastOutTime, name);
         else
-            return String.format("%s%s%s %s %s %s",readable ? 1 : 0,
-                    writable ? 1 : 0,executable? 1:0);
+            return String.format("%s%s%s %s %s %s", readable ? 1 : 0,
+                    writable ? 1 : 0, executable ? 1 : 0, size,
+                    lastOutTime, name);
 
     }
-    private String getPrintSize(long size){
+
+    private String getPrintSize(long size) {
         double value = (double) size;
         if (value < 1024)
             //if smaller than 1024,we should use "B"
@@ -45,10 +48,10 @@ public class system {
         }
     }
 
-    public String fileDictory(File file,boolean isLong,boolean isReverse){
+    public String fileDictory(File file, boolean isLong, boolean isReverse) {
         StringBuilder sb = new StringBuilder();
-        if (file.isFile()){
-            sb.append(getFile(file,isLong)).append("\n");
+        if (file.isFile()) {
+            sb.append(getFile(file, isLong)).append("\n");
         } else {
             File[] files;
             if ((files = file.listFiles()) != null) {
@@ -62,16 +65,18 @@ public class system {
         }
         return sb.toString();
     }
-    private void writeToFile(String contert, File outFiles){
+
+    private void writeToFile(String contert, File outFiles) {
         FileWriter fw;
-        try{
+        try {
             fw = new FileWriter(outFiles);
             fw.write(contert);
             fw.close();
-        }catch(IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
     public void commandParse(String[] args) throws Exception {
         Map<String, String> map1 = new HashMap<>();
         String arg;
